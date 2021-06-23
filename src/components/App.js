@@ -1,7 +1,11 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
+import Register from './Register';
+import Login from './Login';
 
 import Header from './Header';
 import Main from './Main';
@@ -11,6 +15,7 @@ import ImagePopup from './ImagePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import AddPlacePopup from './AddPlacePopup';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
   const[isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -119,15 +124,25 @@ function App() {
       <div className="body">
         <div className="page">
           <Header />
-          <Main
-            onEditAvatar={handleEditAvatarClick}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-          />
+          <Switch>
+            <Route path="/sign-in">
+              <Login />
+            </Route>
+            <Route path="/sign-up">
+              <Register />
+            </Route>
+            <Route exact path="/">
+              <Main
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+              />
+            </Route>
+          </Switch>
           <Footer />
         </div>
 
@@ -150,6 +165,7 @@ function App() {
           card={selectedCard}
           onClose={closeAllPopups}
         />
+        <InfoTooltip />
       </div>
     </CurrentUserContext.Provider>
   );
